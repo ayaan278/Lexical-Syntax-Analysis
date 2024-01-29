@@ -19,7 +19,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles txtExpression.TextChanged
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles CodeBlock.TextChanged
 
     End Sub
 
@@ -28,13 +28,10 @@ Public Class Form1
     End Sub
 
     Private Sub btnParse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnParse.Click
-        Dim result As cToken
-        lstResults.Items.Clear()
-        result = chkExpression()
-        lstResults.Items.Add(result.kind & " " & result.spelling)
+
     End Sub
 
-    Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstResults.SelectedIndexChanged
+    Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResultBlock.SelectedIndexChanged
 
     End Sub
 
@@ -46,4 +43,19 @@ Public Class Form1
         End If
     End Function
 
+    Private Sub ListBox1_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles CodeBlock.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
+
+    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+
+    End Sub
 End Class
