@@ -23,32 +23,33 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        btnExit = New Button()
+        exitButton = New Button()
         Label2 = New Label()
         ResultBlock = New ListBox()
         HelpProvider1 = New HelpProvider()
         PictureBox1 = New PictureBox()
-        Button1 = New Button()
-        btnParse = New Button()
+        analysisButton = New Button()
+        syntaxButton = New Button()
         Label1 = New Label()
-        Button3 = New Button()
-        CodeBlock = New ListBox()
+        lexicalButton = New Button()
+        CodeBlock = New TextBox()
+        Label3 = New Label()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' btnExit
+        ' exitButton
         ' 
-        btnExit.AccessibleName = "btnExit"
-        btnExit.BackColor = Color.Salmon
-        btnExit.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnExit.ForeColor = Color.GhostWhite
-        btnExit.Location = New Point(11, 497)
-        btnExit.Margin = New Padding(2)
-        btnExit.Name = "btnExit"
-        btnExit.Size = New Size(137, 36)
-        btnExit.TabIndex = 1
-        btnExit.Text = "Exit"
-        btnExit.UseVisualStyleBackColor = False
+        exitButton.AccessibleName = "exitButton"
+        exitButton.BackColor = Color.Salmon
+        exitButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        exitButton.ForeColor = Color.GhostWhite
+        exitButton.Location = New Point(11, 497)
+        exitButton.Margin = New Padding(2)
+        exitButton.Name = "exitButton"
+        exitButton.Size = New Size(137, 36)
+        exitButton.TabIndex = 1
+        exitButton.Text = "Exit"
+        exitButton.UseVisualStyleBackColor = False
         ' 
         ' Label2
         ' 
@@ -77,39 +78,39 @@ Partial Class Form1
         ' PictureBox1
         ' 
         PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), Image)
-        PictureBox1.Location = New Point(102, 12)
+        PictureBox1.Location = New Point(101, -4)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(313, 130)
         PictureBox1.TabIndex = 8
         PictureBox1.TabStop = False
         ' 
-        ' Button1
+        ' analysisButton
         ' 
-        Button1.AccessibleName = "btnParse"
-        Button1.BackColor = Color.MidnightBlue
-        Button1.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button1.ForeColor = Color.White
-        Button1.Location = New Point(11, 316)
-        Button1.Margin = New Padding(2)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(137, 41)
-        Button1.TabIndex = 9
-        Button1.Text = "Final Analysis"
-        Button1.UseVisualStyleBackColor = False
+        analysisButton.AccessibleName = "analysisButton"
+        analysisButton.BackColor = Color.MidnightBlue
+        analysisButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        analysisButton.ForeColor = Color.White
+        analysisButton.Location = New Point(11, 316)
+        analysisButton.Margin = New Padding(2)
+        analysisButton.Name = "analysisButton"
+        analysisButton.Size = New Size(137, 41)
+        analysisButton.TabIndex = 9
+        analysisButton.Text = "Final Analysis"
+        analysisButton.UseVisualStyleBackColor = False
         ' 
-        ' btnParse
+        ' syntaxButton
         ' 
-        btnParse.AccessibleName = "btnParse"
-        btnParse.BackColor = Color.CornflowerBlue
-        btnParse.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnParse.ForeColor = Color.White
-        btnParse.Location = New Point(11, 257)
-        btnParse.Margin = New Padding(2)
-        btnParse.Name = "btnParse"
-        btnParse.Size = New Size(137, 39)
-        btnParse.TabIndex = 0
-        btnParse.Text = "Syntax Analysis"
-        btnParse.UseVisualStyleBackColor = False
+        syntaxButton.AccessibleName = "syntaxButton"
+        syntaxButton.BackColor = Color.CornflowerBlue
+        syntaxButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        syntaxButton.ForeColor = Color.White
+        syntaxButton.Location = New Point(11, 257)
+        syntaxButton.Margin = New Padding(2)
+        syntaxButton.Name = "syntaxButton"
+        syntaxButton.Size = New Size(137, 39)
+        syntaxButton.TabIndex = 0
+        syntaxButton.Text = "Syntax Analysis"
+        syntaxButton.UseVisualStyleBackColor = False
         ' 
         ' Label1
         ' 
@@ -122,31 +123,42 @@ Partial Class Form1
         Label1.TabIndex = 2
         Label1.Text = "Enter Expression"
         ' 
-        ' Button3
+        ' lexicalButton
         ' 
-        Button3.BackColor = Color.CornflowerBlue
-        Button3.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Button3.ForeColor = Color.White
-        Button3.Location = New Point(11, 199)
-        Button3.Margin = New Padding(2)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(137, 38)
-        Button3.TabIndex = 4
-        Button3.Text = "Lexical Analysis"
-        Button3.UseVisualStyleBackColor = False
+        lexicalButton.AccessibleName = "lexicalButton"
+        lexicalButton.BackColor = Color.CornflowerBlue
+        lexicalButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lexicalButton.ForeColor = Color.White
+        lexicalButton.Location = New Point(11, 199)
+        lexicalButton.Margin = New Padding(2)
+        lexicalButton.Name = "lexicalButton"
+        lexicalButton.Size = New Size(137, 38)
+        lexicalButton.TabIndex = 4
+        lexicalButton.Text = "Lexical Analysis"
+        lexicalButton.UseVisualStyleBackColor = False
         ' 
         ' CodeBlock
         ' 
         CodeBlock.AccessibleName = "codeBlock"
         CodeBlock.BackColor = Color.AliceBlue
         CodeBlock.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CodeBlock.FormattingEnabled = True
-        CodeBlock.ItemHeight = 22
-        CodeBlock.Location = New Point(183, 183)
-        CodeBlock.Margin = New Padding(2)
+        CodeBlock.Location = New Point(183, 184)
+        CodeBlock.Multiline = True
         CodeBlock.Name = "CodeBlock"
-        CodeBlock.Size = New Size(338, 158)
-        CodeBlock.TabIndex = 6
+        CodeBlock.Size = New Size(337, 164)
+        CodeBlock.TabIndex = 10
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.BackColor = Color.LightSkyBlue
+        Label3.FlatStyle = FlatStyle.Flat
+        Label3.Font = New Font("Trebuchet MS", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label3.Location = New Point(152, 129)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(194, 20)
+        Label3.TabIndex = 11
+        Label3.Text = "Ahmad Ayaan - 1191302794" & vbCrLf
         ' 
         ' Form1
         ' 
@@ -154,16 +166,17 @@ Partial Class Form1
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.GradientActiveCaption
-        ClientSize = New Size(532, 565)
-        Controls.Add(Button1)
-        Controls.Add(PictureBox1)
+        ClientSize = New Size(532, 554)
+        Controls.Add(Label3)
         Controls.Add(CodeBlock)
+        Controls.Add(analysisButton)
+        Controls.Add(PictureBox1)
         Controls.Add(ResultBlock)
-        Controls.Add(Button3)
+        Controls.Add(lexicalButton)
         Controls.Add(Label2)
         Controls.Add(Label1)
-        Controls.Add(btnExit)
-        Controls.Add(btnParse)
+        Controls.Add(exitButton)
+        Controls.Add(syntaxButton)
         Margin = New Padding(2)
         Name = "Form1"
         Text = "Form1"
@@ -171,15 +184,16 @@ Partial Class Form1
         ResumeLayout(False)
         PerformLayout()
     End Sub
-    Friend WithEvents btnExit As Button
+    Friend WithEvents exitButton As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents ResultBlock As ListBox
     Friend WithEvents HelpProvider1 As HelpProvider
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents btnParse As Button
+    Friend WithEvents analysisButton As Button
+    Friend WithEvents syntaxButton As Button
     Friend WithEvents Label1 As Label
-    Friend WithEvents Button3 As Button
-    Friend WithEvents CodeBlock As ListBox
+    Friend WithEvents lexicalButton As Button
+    Friend WithEvents CodeBlock As TextBox
+    Friend WithEvents Label3 As Label
 
 End Class
