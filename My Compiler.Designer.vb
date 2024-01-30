@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class MyCompiler
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MyCompiler))
         exitButton = New Button()
         Label2 = New Label()
         ResultBlock = New ListBox()
@@ -41,7 +41,7 @@ Partial Class Form1
         ' 
         exitButton.AccessibleName = "exitButton"
         exitButton.BackColor = Color.Salmon
-        exitButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        exitButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         exitButton.ForeColor = Color.GhostWhite
         exitButton.Location = New Point(11, 497)
         exitButton.Margin = New Padding(2)
@@ -88,7 +88,7 @@ Partial Class Form1
         ' 
         analysisButton.AccessibleName = "analysisButton"
         analysisButton.BackColor = Color.MidnightBlue
-        analysisButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        analysisButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         analysisButton.ForeColor = Color.White
         analysisButton.Location = New Point(11, 316)
         analysisButton.Margin = New Padding(2)
@@ -102,7 +102,7 @@ Partial Class Form1
         ' 
         syntaxButton.AccessibleName = "syntaxButton"
         syntaxButton.BackColor = Color.CornflowerBlue
-        syntaxButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        syntaxButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         syntaxButton.ForeColor = Color.White
         syntaxButton.Location = New Point(11, 257)
         syntaxButton.Margin = New Padding(2)
@@ -127,7 +127,7 @@ Partial Class Form1
         ' 
         lexicalButton.AccessibleName = "lexicalButton"
         lexicalButton.BackColor = Color.CornflowerBlue
-        lexicalButton.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lexicalButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lexicalButton.ForeColor = Color.White
         lexicalButton.Location = New Point(11, 199)
         lexicalButton.Margin = New Padding(2)
@@ -141,7 +141,7 @@ Partial Class Form1
         ' 
         CodeBlock.AccessibleName = "codeBlock"
         CodeBlock.BackColor = Color.AliceBlue
-        CodeBlock.Font = New Font("Trebuchet MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        CodeBlock.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         CodeBlock.Location = New Point(183, 184)
         CodeBlock.Multiline = True
         CodeBlock.Name = "CodeBlock"
@@ -160,10 +160,10 @@ Partial Class Form1
         Label3.TabIndex = 11
         Label3.Text = "Ahmad Ayaan - 1191302794" & vbCrLf
         ' 
-        ' Form1
+        ' MyCompiler
         ' 
         AccessibleName = "PLTAssignment"
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.GradientActiveCaption
         ClientSize = New Size(532, 554)
@@ -178,8 +178,8 @@ Partial Class Form1
         Controls.Add(exitButton)
         Controls.Add(syntaxButton)
         Margin = New Padding(2)
-        Name = "Form1"
-        Text = "Form1"
+        Name = "MyCompiler"
+        Text = "Mini Project Compiler"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()

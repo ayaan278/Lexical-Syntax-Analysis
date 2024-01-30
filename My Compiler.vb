@@ -1,9 +1,9 @@
 ﻿Imports System.Linq.Expressions
 Imports System.Threading
 
-Public Class Form1
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+Public Class MyCompiler
+    Private Sub MyCompiler_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        TextBox1_TextChanged(sender, e)
     End Sub
 
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
@@ -15,13 +15,32 @@ Public Class Form1
     End Sub
 
     'The Code block will be used to enter the code to be analyzed.
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs)
-
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles CodeBlock.TextChanged
+        'Check if CodeBlock is empty
+        If CodeBlock.Text.Length = 0 Then
+            lexicalButton.Enabled = False
+            syntaxButton.Enabled = False
+            analysisButton.Enabled = False
+        Else
+            lexicalButton.Enabled = True
+            syntaxButton.Enabled = True
+            analysisButton.Enabled = True
+        End If
     End Sub
 
     '-----------------------------------------------------------------------------------------------------------
     'The Lexical Analysis button will be used to perform the lexical analysis of the code entered in the text box.
     Private Sub lexicalAnalysis_Click(sender As Object, e As EventArgs) Handles lexicalButton.Click
+        Dim scanner As Scanner = New Scanner
+        Dim currentToken As Token
+
+        ResultBlock.Items.Clear()
+
+        currentToken = scanner.scan
+        While currentToken.kind <> Token.EOF
+            ResultBlock.Items.Add(currentToken.ToString)
+            currentToken = scanner.scan
+        End While
 
     End Sub
     '-----------------------------------------------------------------------------------------------------------
@@ -29,44 +48,7 @@ Public Class Form1
     'The Syntax Analysis button will be used to perform the syntax analysis of the code entered in the text box.
     '-----------------------------------------------------------------------------------------------------------
     Private Sub syntaxAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles syntaxButton.Click
-        Dim i As Integer
-        Dim current As Char
-        Dim operand1, operand2 As String
-        Dim oper As Char
 
-        i = 0
-        operand1 = ""
-        operand2 = ""
-        ResultBlock.Items.Clear()
-
-        current = CodeBlock.Text(i)
-        While IsDigit(current) And i < CodeBlock.Text.Length
-            operand1 &= current
-            i += 1
-            current = CodeBlock.Text(i)
-        End While
-
-        ' skip space
-        i += 1
-        current = CodeBlock.Text(i)
-
-        oper = current
-        i += 1
-
-        ' skip space
-        i += 1
-        current = CodeBlock.Text(i)
-
-        While IsDigit(current) And i < CodeBlock.Text.Length
-            operand2 &= current
-            i += 1
-            If i < CodeBlock.Text.Length Then
-                current = CodeBlock.Text(i)
-            End If
-        End While
-        ResultBlock.Items.Add("operand1:" & operand1)
-        ResultBlock.Items.Add("operator:" & oper)
-        ResultBlock.Items.Add("operand2:" & operand2)
     End Sub
     '-----------------------------------------------------------------------------------------------------------
 
@@ -88,15 +70,4 @@ Public Class Form1
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResultBlock.SelectedIndexChanged
 
     End Sub
-
-    'The IsDigit function will be used to determine if a character is a digit.
-    Function IsDigit(ByVal c As Char) As Boolean
-        If (Asc(c) >= Asc("0")) And (Asc(c) <= Asc("9")) Then
-            IsDigit = True
-        Else
-            IsDigit = False
-        End If
-    End Function
-
-
 End Class
