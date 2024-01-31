@@ -29,7 +29,9 @@ Public Class MyCompiler
     End Sub
 
     '-----------------------------------------------------------------------------------------------------------
+
     'The Lexical Analysis button will be used to perform the lexical analysis of the code entered in the text box.
+    '-----------------------------------------------------------------------------------------------------------
     Private Sub lexicalAnalysis_Click(sender As Object, e As EventArgs) Handles lexicalButton.Click
         Dim scanner As Scanner = New Scanner
         Dim currentToken As Token

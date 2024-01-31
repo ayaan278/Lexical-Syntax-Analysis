@@ -73,13 +73,15 @@ Public Class Scanner
             Return Token.SEPARATORS
         End If
 
-        ' Check for operators
+        ' Check for identidiers
         If Char.IsLetter(currentChar) Then
             takeIt()
             While Char.IsLetterOrDigit(currentChar)
                 takeIt()
             End While
-            Return Token.IDENTIFIERS
+            'TODO: 
+            ' Call the scanIdentifier function from 
+
         End If
 
         ' Check for integers
@@ -91,6 +93,21 @@ Public Class Scanner
             Return Token.INTEGERS
         End If
 
+        ' Check for operators
+        If currentChar = "+" Or currentChar = "-" Or currentChar = "*" Or currentChar = "=" Or currentChar = "/" Then
+            takeIt()
+            Return Token.OPERATORS
+        End If
+
+        ' Check for keywords
+        If currentChar = "i" Then
+            takeIt()
+            If currentChar = "f" Then
+                takeIt()
+                Return Token.KEYWORDS
+            End If
+        End If
+
         ' Check for EOF
         If currentIndex = MyCompiler.CodeBlock.Text.Length Then
             takeIt()
@@ -100,5 +117,6 @@ Public Class Scanner
         ' Return UNKNOWN for any other characters
         takeIt()
         Return Token.UNKNOWN
+
     End Function
 End Class

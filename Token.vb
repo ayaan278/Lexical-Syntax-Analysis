@@ -36,15 +36,19 @@ Public Class Token
                     Return "invalid"
                 End If
             Case INTEGERS
-                Return "valid"
+                If checkNumber.Contains(spelling) Then
+                    Return "valid"
+                Else
+                    Return "invalid"
+                End If
             Case OPERATORS
-                If spelling = "+" Or spelling = "-" Or spelling = "*" Or spelling = "/" Or spelling = "=" Or spelling = "<" Or spelling = ">" Then
+                If checkOperator.Contains(spelling) Then
                     Return "valid"
                 Else
                     Return "invalid"
                 End If
             Case SEPARATORS
-                If spelling = ";" Then
+                If checkSeparator.Contains(spelling) Then
                     Return "valid"
                 Else
                     Return "invalid"
@@ -59,4 +63,8 @@ Public Class Token
                 Return "invalid"
         End Select
     End Function
+
+    Private checkOperator As String = "+-*/=<>"
+    Private checkSeparator As String = ";"
+    Private checkNumber As String = "0123456789"
 End Class

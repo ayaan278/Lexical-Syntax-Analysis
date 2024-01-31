@@ -88,12 +88,13 @@ Partial Class MyCompiler
         ' 
         analysisButton.AccessibleName = "analysisButton"
         analysisButton.BackColor = Color.MidnightBlue
+        analysisButton.FlatStyle = FlatStyle.Flat
         analysisButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         analysisButton.ForeColor = Color.White
         analysisButton.Location = New Point(11, 316)
         analysisButton.Margin = New Padding(2)
         analysisButton.Name = "analysisButton"
-        analysisButton.Size = New Size(137, 41)
+        analysisButton.Size = New Size(137, 40)
         analysisButton.TabIndex = 9
         analysisButton.Text = "Final Analysis"
         analysisButton.UseVisualStyleBackColor = False
