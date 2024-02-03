@@ -42,10 +42,11 @@ Public Class MyCompiler
 
         'Scan the tokens and add them to the table
         currentToken = scanner.scan
+
+
         While currentToken.kind <> Token.LAST
-            currentToken = scanner.scan
             'Create a new row only if the token is not the last token
-            If currentToken.kind <> Token.LAST Then
+            If Token.LAST Then
                 ' Create a new row
                 Dim newRow As DataGridViewRow = New DataGridViewRow()
 
@@ -74,6 +75,8 @@ Public Class MyCompiler
                 ' Refresh the DataGridView to update the display
                 LexicalResultTable.Refresh()
             End If
+            currentToken = scanner.scan
+
 
         End While
 

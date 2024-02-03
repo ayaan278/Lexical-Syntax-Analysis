@@ -22,19 +22,14 @@ Public Class Token
     Public Shared SEPARATORS As Integer = 5
     Public Shared KEYWORDS As Integer = 6
     Public Shared UNKNOWN As Integer = 7
-    Public Shared LAST As Integer = 8
-
-    'Check if the token is valid or invalid based on the kind
-    Private checkOperator As String = "+-*/=<>"
-    Private checkSeparator As String = ";"
-    Private checkNumber As String = "0123456789"
-
+    Public Shared BRACES As Integer = 8
+    Public Shared LAST As Integer = 9
 
     ' Check if the token is valid or invalid
     Public Function isValid() As String
         ' Check if the token is valid or invalid
         Select Case kind
-            Case Token.SOF, Token.EOF, Token.OPERATORS, Token.SEPARATORS, Token.KEYWORDS, Token.INTEGERS, Token.IDENTIFIERS
+            Case Token.SOF, Token.EOF, Token.OPERATORS, Token.SEPARATORS, Token.KEYWORDS, Token.INTEGERS, Token.IDENTIFIERS, Token.BRACES
                 Return "valid"
             Case Else
                 Return "invalid"
@@ -60,6 +55,8 @@ Public Class Token
                 Return "KEYWORDS"
             Case UNKNOWN
                 Return "UNKNOWN"
+            Case BRACES
+                Return "BRACES"
             Case LAST
                 Return "LAST"
             Case Else

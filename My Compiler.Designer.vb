@@ -49,7 +49,7 @@ Partial Class MyCompiler
         exitButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         exitButton.ForeColor = Color.GhostWhite
         exitButton.Location = New Point(18, 520)
-        exitButton.Margin = New Padding(2, 2, 2, 2)
+        exitButton.Margin = New Padding(2)
         exitButton.Name = "exitButton"
         exitButton.Size = New Size(137, 36)
         exitButton.TabIndex = 1
@@ -75,7 +75,7 @@ Partial Class MyCompiler
         ResultBlock.FormattingEnabled = True
         ResultBlock.ItemHeight = 24
         ResultBlock.Location = New Point(477, 173)
-        ResultBlock.Margin = New Padding(2, 2, 2, 2)
+        ResultBlock.Margin = New Padding(2)
         ResultBlock.Name = "ResultBlock"
         ResultBlock.Size = New Size(279, 196)
         ResultBlock.TabIndex = 5
@@ -101,7 +101,7 @@ Partial Class MyCompiler
         analysisButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         analysisButton.ForeColor = Color.White
         analysisButton.Location = New Point(18, 293)
-        analysisButton.Margin = New Padding(2, 2, 2, 2)
+        analysisButton.Margin = New Padding(2)
         analysisButton.Name = "analysisButton"
         analysisButton.Size = New Size(137, 40)
         analysisButton.TabIndex = 9
@@ -115,7 +115,7 @@ Partial Class MyCompiler
         syntaxButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         syntaxButton.ForeColor = Color.White
         syntaxButton.Location = New Point(18, 233)
-        syntaxButton.Margin = New Padding(2, 2, 2, 2)
+        syntaxButton.Margin = New Padding(2)
         syntaxButton.Name = "syntaxButton"
         syntaxButton.Size = New Size(137, 39)
         syntaxButton.TabIndex = 0
@@ -140,7 +140,7 @@ Partial Class MyCompiler
         lexicalButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lexicalButton.ForeColor = Color.White
         lexicalButton.Location = New Point(18, 173)
-        lexicalButton.Margin = New Padding(2, 2, 2, 2)
+        lexicalButton.Margin = New Padding(2)
         lexicalButton.Name = "lexicalButton"
         lexicalButton.Size = New Size(137, 38)
         lexicalButton.TabIndex = 4
@@ -155,7 +155,8 @@ Partial Class MyCompiler
         CodeBlock.Location = New Point(187, 173)
         CodeBlock.Multiline = True
         CodeBlock.Name = "CodeBlock"
-        CodeBlock.Size = New Size(287, 202)
+        CodeBlock.ScrollBars = ScrollBars.Both
+        CodeBlock.Size = New Size(287, 196)
         CodeBlock.TabIndex = 10
         ' 
         ' Label3
@@ -196,7 +197,7 @@ Partial Class MyCompiler
         LexicalResultTable.DefaultCellStyle = DataGridViewCellStyle2
         LexicalResultTable.GridColor = SystemColors.WindowText
         LexicalResultTable.Location = New Point(187, 394)
-        LexicalResultTable.Margin = New Padding(2, 2, 2, 2)
+        LexicalResultTable.Margin = New Padding(2)
         LexicalResultTable.Name = "LexicalResultTable"
         LexicalResultTable.ReadOnly = True
         LexicalResultTable.RowHeadersWidth = 62
@@ -232,7 +233,7 @@ Partial Class MyCompiler
         Controls.Add(Label1)
         Controls.Add(exitButton)
         Controls.Add(syntaxButton)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "MyCompiler"
         Text = "Mini Project Compiler"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()

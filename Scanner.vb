@@ -49,32 +49,17 @@ Public Class Scanner
         'Check for SOF (Start of File) token and (End of File) token 
         If currentChar = "#" Then
             takeIt()
-            If currentChar = "S" Then
+            While Expression.isCharacter(currentChar)
                 takeIt()
-                If currentChar = "t" Then
-                    takeIt()
-                    If currentChar = "a" Then
-                        takeIt()
-                        If currentChar = "r" Then
-                            takeIt()
-                            If currentChar = "t" Then
-                                takeIt()
-                                Return Token.SOF
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-            If currentChar = "E" Then
+            End While
+            If Expression.isSOF(currentSpelling) Then
                 takeIt()
-                If currentChar = "n" Then
-                    takeIt()
-                    If currentChar = "d" Then
-                        takeIt()
-                        Return Token.EOF
-                    End If
-                End If
+                Return Token.SOF
+            ElseIf Expression.isEOF(currentSpelling) Then
+                takeIt()
+                Return Token.EOF
             End If
+
             ' Return UNKNOWN for any other characters
             While Char.IsLetterOrDigit(currentChar)
                 takeIt()
@@ -83,42 +68,42 @@ Public Class Scanner
         End If
 
         ' Check for separators
-        If currentChar = ";" Then
+        If Expression.isSeparator(currentChar) Then
             takeIt()
             Return Token.SEPARATORS
         End If
 
-        ' Check for identidiers
-        If Char.IsLetter(currentChar) Then
+        ' Check for identifiers and keywords using regular expression class
+        If Expression.isCharacter(currentChar) Then
             takeIt()
-            While Char.IsLetterOrDigit(currentChar)
+            While Expression.isCharacter(currentChar) Or Expression.isDigit(currentChar)
                 takeIt()
             End While
+            If Expression.isKeyword(currentSpelling) Then
+                Return Token.KEYWORDS
+            End If
             Return Token.IDENTIFIERS
         End If
 
-        ' Check for integers
-        If Char.IsDigit(currentChar) Then
+        ' Check for integers using regular expression class
+        If Expression.isDigit(currentChar) Then
             takeIt()
-            While Char.IsDigit(currentChar)
+            While Expression.isDigit(currentChar)
                 takeIt()
             End While
             Return Token.INTEGERS
         End If
 
         ' Check for operators
-        If currentChar = "+" Or currentChar = "-" Or currentChar = "*" Or currentChar = "=" Or currentChar = "/" Then
+        If Expression.isOperator(currentChar) Then
             takeIt()
             Return Token.OPERATORS
         End If
 
-        ' Check for keywords
-        If currentChar = "i" Then
+        ' Check for braces
+        If Expression.isBraces(currentChar) Then
             takeIt()
-            If currentChar = "f" Then
-                takeIt()
-                Return Token.KEYWORDS
-            End If
+            Return Token.BRACES
         End If
 
         ' Check LAST Token
