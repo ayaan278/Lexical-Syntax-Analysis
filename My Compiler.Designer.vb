@@ -48,10 +48,10 @@ Partial Class MyCompiler
         exitButton.BackColor = Color.Salmon
         exitButton.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         exitButton.ForeColor = Color.GhostWhite
-        exitButton.Location = New Point(18, 520)
+        exitButton.Location = New Point(18, 518)
         exitButton.Margin = New Padding(2)
         exitButton.Name = "exitButton"
-        exitButton.Size = New Size(137, 36)
+        exitButton.Size = New Size(140, 40)
         exitButton.TabIndex = 1
         exitButton.Text = "Exit"
         exitButton.UseVisualStyleBackColor = False
@@ -59,7 +59,7 @@ Partial Class MyCompiler
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(187, 377)
+        Label2.Location = New Point(479, 346)
         Label2.Margin = New Padding(2, 0, 2, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(78, 15)
@@ -74,10 +74,10 @@ Partial Class MyCompiler
         ResultBlock.ForeColor = Color.White
         ResultBlock.FormattingEnabled = True
         ResultBlock.ItemHeight = 24
-        ResultBlock.Location = New Point(477, 173)
+        ResultBlock.Location = New Point(479, 172)
         ResultBlock.Margin = New Padding(2)
         ResultBlock.Name = "ResultBlock"
-        ResultBlock.Size = New Size(279, 196)
+        ResultBlock.Size = New Size(456, 172)
         ResultBlock.TabIndex = 5
         ' 
         ' PictureBox1
@@ -103,7 +103,7 @@ Partial Class MyCompiler
         analysisButton.Location = New Point(18, 293)
         analysisButton.Margin = New Padding(2)
         analysisButton.Name = "analysisButton"
-        analysisButton.Size = New Size(137, 40)
+        analysisButton.Size = New Size(140, 40)
         analysisButton.TabIndex = 9
         analysisButton.Text = "Final Analysis"
         analysisButton.UseVisualStyleBackColor = False
@@ -117,7 +117,7 @@ Partial Class MyCompiler
         syntaxButton.Location = New Point(18, 233)
         syntaxButton.Margin = New Padding(2)
         syntaxButton.Name = "syntaxButton"
-        syntaxButton.Size = New Size(137, 39)
+        syntaxButton.Size = New Size(140, 40)
         syntaxButton.TabIndex = 0
         syntaxButton.Text = "Syntax Analysis"
         syntaxButton.UseVisualStyleBackColor = False
@@ -126,7 +126,7 @@ Partial Class MyCompiler
         ' 
         Label1.AccessibleName = "txtExpression"
         Label1.AutoSize = True
-        Label1.Location = New Point(183, 155)
+        Label1.Location = New Point(178, 155)
         Label1.Margin = New Padding(2, 0, 2, 0)
         Label1.Name = "Label1"
         Label1.Size = New Size(65, 15)
@@ -142,7 +142,7 @@ Partial Class MyCompiler
         lexicalButton.Location = New Point(18, 173)
         lexicalButton.Margin = New Padding(2)
         lexicalButton.Name = "lexicalButton"
-        lexicalButton.Size = New Size(137, 38)
+        lexicalButton.Size = New Size(140, 40)
         lexicalButton.TabIndex = 4
         lexicalButton.Text = "Lexical Analysis"
         lexicalButton.UseVisualStyleBackColor = False
@@ -152,11 +152,11 @@ Partial Class MyCompiler
         CodeBlock.AccessibleName = "codeBlock"
         CodeBlock.BackColor = Color.AliceBlue
         CodeBlock.Font = New Font("Trebuchet MS", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        CodeBlock.Location = New Point(187, 173)
+        CodeBlock.Location = New Point(178, 173)
         CodeBlock.Multiline = True
         CodeBlock.Name = "CodeBlock"
         CodeBlock.ScrollBars = ScrollBars.Both
-        CodeBlock.Size = New Size(287, 196)
+        CodeBlock.Size = New Size(296, 383)
         CodeBlock.TabIndex = 10
         ' 
         ' Label3
@@ -166,7 +166,7 @@ Partial Class MyCompiler
         Label3.BorderStyle = BorderStyle.FixedSingle
         Label3.FlatStyle = FlatStyle.Flat
         Label3.Font = New Font("Trebuchet MS", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(416, 16)
+        Label3.Location = New Point(417, 16)
         Label3.Name = "Label3"
         Label3.Padding = New Padding(4, 3, 4, 3)
         Label3.Size = New Size(323, 128)
@@ -196,12 +196,12 @@ Partial Class MyCompiler
         DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
         LexicalResultTable.DefaultCellStyle = DataGridViewCellStyle2
         LexicalResultTable.GridColor = SystemColors.WindowText
-        LexicalResultTable.Location = New Point(187, 394)
+        LexicalResultTable.Location = New Point(479, 363)
         LexicalResultTable.Margin = New Padding(2)
         LexicalResultTable.Name = "LexicalResultTable"
         LexicalResultTable.ReadOnly = True
         LexicalResultTable.RowHeadersWidth = 62
-        LexicalResultTable.Size = New Size(568, 161)
+        LexicalResultTable.Size = New Size(456, 193)
         LexicalResultTable.TabIndex = 12
         ' 
         ' Label4
@@ -219,8 +219,9 @@ Partial Class MyCompiler
         AccessibleName = "PLTAssignment"
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoSizeMode = AutoSizeMode.GrowAndShrink
         BackColor = SystemColors.GradientActiveCaption
-        ClientSize = New Size(789, 575)
+        ClientSize = New Size(949, 573)
         Controls.Add(Label4)
         Controls.Add(LexicalResultTable)
         Controls.Add(Label3)
@@ -234,6 +235,7 @@ Partial Class MyCompiler
         Controls.Add(exitButton)
         Controls.Add(syntaxButton)
         Margin = New Padding(2)
+        MaximizeBox = False
         Name = "MyCompiler"
         Text = "Mini Project Compiler"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()

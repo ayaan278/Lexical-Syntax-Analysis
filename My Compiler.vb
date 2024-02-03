@@ -5,13 +5,28 @@ Public Class MyCompiler
     'The Form will be used to create the GUI for the application.
     Private Sub MyCompiler_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         TextBox1_TextChanged(sender, e)
+
+        ' Add columns to the DataGridView
         LexicalResultTable.Columns.Add("Kind", "Kind")
         LexicalResultTable.Columns.Add("KindType", "Kind Type")
         LexicalResultTable.Columns.Add("Token", "Token")
         LexicalResultTable.Columns.Add("Validity", "Validity")
+
+        ' Set the column widths
+        LexicalResultTable.Columns(0).Width = 50
+        LexicalResultTable.Columns(1).Width = 150
+        LexicalResultTable.Columns(2).Width = 150
+        LexicalResultTable.Columns(3).Width = 100
+
+        'Disable the leftmost filter rows buttons
+        LexicalResultTable.RowHeadersVisible = False
+
+
         ' Disable the maximize button
         Me.MaximizeBox = False
+
     End Sub
+
 
     'The Code block will be used to enter the code to be analyzed.
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles CodeBlock.TextChanged
@@ -37,8 +52,6 @@ Public Class MyCompiler
 
         'Clear the table before adding new tokens
         LexicalResultTable.Rows.Clear()
-        'Clear the Result block before adding new tokens
-        ResultBlock.Items.Clear()
 
         'Scan the tokens and add them to the table
         currentToken = scanner.scan
@@ -90,8 +103,6 @@ Public Class MyCompiler
         Dim scanner As Scanner = New Scanner
         Dim parser As Parser = New Parser
 
-        'Clear the table before adding new tokens
-        LexicalResultTable.Rows.Clear()
         'Clear the Result block before adding new tokens
         ResultBlock.Items.Clear()
 
@@ -113,7 +124,13 @@ Public Class MyCompiler
     'The Analysis button will be used to perform the lexical and syntax analysis of the code entered in the text box.
     '-----------------------------------------------------------------------------------------------------------
     Private Sub analysisButton_Click(sender As Object, e As EventArgs) Handles analysisButton.Click
+        'Clear the table before adding new tokens
+        LexicalResultTable.Rows.Clear()
+        'Clear the Result block before adding new tokens
+        ResultBlock.Items.Clear()
 
+        lexicalAnalysis_Click(sender, e)
+        syntaxAnalysis_Click(sender, e)
     End Sub
     '-----------------------------------------------------------------------------------------------------------
 
