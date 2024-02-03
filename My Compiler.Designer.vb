@@ -22,9 +22,8 @@ Partial Class MyCompiler
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MyCompiler))
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         exitButton = New Button()
         Label2 = New Label()
         ResultBlock = New ListBox()
@@ -35,7 +34,6 @@ Partial Class MyCompiler
         Label1 = New Label()
         lexicalButton = New Button()
         CodeBlock = New TextBox()
-        Label3 = New Label()
         LexicalResultTable = New DataGridView()
         Label4 = New Label()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -59,7 +57,7 @@ Partial Class MyCompiler
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(479, 346)
+        Label2.Location = New Point(482, 155)
         Label2.Margin = New Padding(2, 0, 2, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(78, 15)
@@ -74,7 +72,7 @@ Partial Class MyCompiler
         ResultBlock.ForeColor = Color.White
         ResultBlock.FormattingEnabled = True
         ResultBlock.ItemHeight = 24
-        ResultBlock.Location = New Point(479, 172)
+        ResultBlock.Location = New Point(482, 384)
         ResultBlock.Margin = New Padding(2)
         ResultBlock.Name = "ResultBlock"
         ResultBlock.Size = New Size(456, 172)
@@ -82,13 +80,13 @@ Partial Class MyCompiler
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.BackColor = Color.Azure
-        PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), Image)
-        PictureBox1.BackgroundImageLayout = ImageLayout.Stretch
+        PictureBox1.BackColor = SystemColors.ActiveCaptionText
+        PictureBox1.BackgroundImage = My.Resources.Resources.Banner
+        PictureBox1.BackgroundImageLayout = ImageLayout.Zoom
         PictureBox1.BorderStyle = BorderStyle.FixedSingle
-        PictureBox1.Location = New Point(18, 16)
+        PictureBox1.Location = New Point(-4, -2)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(393, 128)
+        PictureBox1.Size = New Size(960, 146)
         PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
         PictureBox1.TabIndex = 8
         PictureBox1.TabStop = False
@@ -159,44 +157,30 @@ Partial Class MyCompiler
         CodeBlock.Size = New Size(296, 383)
         CodeBlock.TabIndex = 10
         ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.BackColor = Color.Azure
-        Label3.BorderStyle = BorderStyle.FixedSingle
-        Label3.FlatStyle = FlatStyle.Flat
-        Label3.Font = New Font("Trebuchet MS", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(417, 16)
-        Label3.Name = "Label3"
-        Label3.Padding = New Padding(4, 3, 4, 3)
-        Label3.Size = New Size(323, 128)
-        Label3.TabIndex = 11
-        Label3.Text = "TCP2451- Programming Language Translation" & vbCrLf & vbCrLf & "Name - Ahmad Ayaan " & vbCrLf & "StudentID - 1191302794" & vbCrLf & vbCrLf & vbCrLf
-        ' 
         ' LexicalResultTable
         ' 
         LexicalResultTable.AllowUserToAddRows = False
         LexicalResultTable.AllowUserToDeleteRows = False
         LexicalResultTable.BackgroundColor = Color.LightSkyBlue
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.DarkBlue
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 12F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.ControlLightLight
-        DataGridViewCellStyle1.SelectionBackColor = SystemColors.ActiveCaption
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        LexicalResultTable.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = Color.DarkBlue
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 12F)
+        DataGridViewCellStyle3.ForeColor = SystemColors.ControlLightLight
+        DataGridViewCellStyle3.SelectionBackColor = SystemColors.ActiveCaption
+        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        LexicalResultTable.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         LexicalResultTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Window
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 12F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        LexicalResultTable.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = SystemColors.Window
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 12F)
+        DataGridViewCellStyle4.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.False
+        LexicalResultTable.DefaultCellStyle = DataGridViewCellStyle4
         LexicalResultTable.GridColor = SystemColors.WindowText
-        LexicalResultTable.Location = New Point(479, 363)
+        LexicalResultTable.Location = New Point(482, 172)
         LexicalResultTable.Margin = New Padding(2)
         LexicalResultTable.Name = "LexicalResultTable"
         LexicalResultTable.ReadOnly = True
@@ -207,7 +191,7 @@ Partial Class MyCompiler
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(477, 155)
+        Label4.Location = New Point(483, 367)
         Label4.Margin = New Padding(2, 0, 2, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(77, 15)
@@ -224,7 +208,6 @@ Partial Class MyCompiler
         ClientSize = New Size(949, 573)
         Controls.Add(Label4)
         Controls.Add(LexicalResultTable)
-        Controls.Add(Label3)
         Controls.Add(CodeBlock)
         Controls.Add(analysisButton)
         Controls.Add(PictureBox1)
