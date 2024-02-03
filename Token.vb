@@ -30,48 +30,18 @@ Public Class Token
     Private checkNumber As String = "0123456789"
 
 
+    ' Check if the token is valid or invalid
     Public Function isValid() As String
-        'Check if the token is valid or invalid
+        ' Check if the token is valid or invalid
         Select Case kind
-            Case SOF
+            Case Token.SOF, Token.EOF, Token.OPERATORS, Token.SEPARATORS, Token.KEYWORDS, Token.INTEGERS, Token.IDENTIFIERS
                 Return "valid"
-            Case EOF
-                Return "valid"
-            Case IDENTIFIERS
-                If spelling = "if" Then
-                    Return "valid"
-                Else
-                    Return "invalid"
-                End If
-            Case INTEGERS
-                If checkNumber.Contains(spelling) Then
-                    Return "valid"
-                Else
-                    Return "invalid"
-                End If
-            Case OPERATORS
-                If checkOperator.Contains(spelling) Then
-                    Return "valid"
-                Else
-                    Return "invalid"
-                End If
-            Case SEPARATORS
-                If checkSeparator.Contains(spelling) Then
-                    Return "valid"
-                Else
-                    Return "invalid"
-                End If
-            Case KEYWORDS
-                If spelling = "if" Or spelling = "then" Or spelling = "else" Or spelling = "end" Then
-                    Return "valid"
-                Else
-                    Return "invalid"
-                End If
             Case Else
                 Return "invalid"
         End Select
     End Function
 
+    'Get the kind type of the token
     Public Function GetKindType() As String
         Select Case kind
             Case SOF

@@ -5,20 +5,12 @@ Public Class MyCompiler
     'The Form will be used to create the GUI for the application.
     Private Sub MyCompiler_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         TextBox1_TextChanged(sender, e)
-        lexicalResultTable.Columns.Add("Kind", "Kind")
-        lexicalResultTable.Columns.Add("KindType", "Kind Type")
-        lexicalResultTable.Columns.Add("Spelling", "Spelling")
-        lexicalResultTable.Columns.Add("Validity", "Validity")
+        LexicalResultTable.Columns.Add("Kind", "Kind")
+        LexicalResultTable.Columns.Add("KindType", "Kind Type")
+        LexicalResultTable.Columns.Add("Token", "Token")
+        LexicalResultTable.Columns.Add("Validity", "Validity")
         ' Disable the maximize button
         Me.MaximizeBox = False
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
-
     End Sub
 
     'The Code block will be used to enter the code to be analyzed.
@@ -44,12 +36,45 @@ Public Class MyCompiler
         Dim currentToken As Token
 
         'Clear the table before adding new tokens
-        lexicalResultTable.Rows.Clear()
+        LexicalResultTable.Rows.Clear()
+        'Clear the Result block before adding new tokens
+        ResultBlock.Items.Clear()
 
         'Scan the tokens and add them to the table
         currentToken = scanner.scan
         While currentToken.kind <> Token.LAST
             currentToken = scanner.scan
+            'Create a new row only if the token is not the last token
+            If currentToken.kind <> Token.LAST Then
+                ' Create a new row
+                Dim newRow As DataGridViewRow = New DataGridViewRow()
+
+                ' Create cells for each column and set their values
+                Dim kindCell As New DataGridViewTextBoxCell()
+                kindCell.Value = currentToken.kind
+
+                Dim kindTypeCell As New DataGridViewTextBoxCell()
+                kindTypeCell.Value = currentToken.GetKindType()
+
+                Dim spellingCell As New DataGridViewTextBoxCell()
+                spellingCell.Value = currentToken.spelling
+
+                Dim isValidCell As New DataGridViewTextBoxCell()
+                isValidCell.Value = currentToken.isValid()
+
+                ' Add cells to the row in the correct order
+                newRow.Cells.Add(kindCell)
+                newRow.Cells.Add(kindTypeCell)
+                newRow.Cells.Add(spellingCell)
+                newRow.Cells.Add(isValidCell)
+
+                ' Add the new row to the DataGridView
+                LexicalResultTable.Rows.Add(newRow)
+
+                ' Refresh the DataGridView to update the display
+                LexicalResultTable.Refresh()
+            End If
+
         End While
 
     End Sub
@@ -58,6 +83,26 @@ Public Class MyCompiler
     'The Syntax Analysis button will be used to perform the syntax analysis of the code entered in the text box.
     '-----------------------------------------------------------------------------------------------------------
     Private Sub syntaxAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles syntaxButton.Click
+        Dim syntaxError As Boolean = False
+        Dim scanner As Scanner = New Scanner
+        Dim parser As Parser = New Parser
+
+        'Clear the table before adding new tokens
+        LexicalResultTable.Rows.Clear()
+        'Clear the Result block before adding new tokens
+        ResultBlock.Items.Clear()
+
+        'Parse the program
+        parser.nextToken = scanner.scan
+        parser.parse_program()
+
+        'Check for syntax error
+        If syntaxError Then
+            ResultBlock.Items.Add("Syntax Error!")
+        Else
+            ResultBlock.Items.Add("Syntax Correct!")
+        End If
+
 
     End Sub
     '-----------------------------------------------------------------------------------------------------------
@@ -81,19 +126,30 @@ Public Class MyCompiler
 
     End Sub
 
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles lexicalResultTable.CellContentClick
+
+    'The Lexical Result table will be used to display the results of the lexical analysis.
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles LexicalResultTable.CellContentClick
 
     End Sub
 
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
+    '-----------------------------------------------------------------------------------------------------------
+    'The Code blocks after this are for label that will be used to display the labels in the application.
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 
     End Sub
+    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
 
+    End Sub
     Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
 
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
     End Sub
+    '-----------------------------------------------------------------------------------------------------------
 End Class
+'-End of the MyCompiler.vb file

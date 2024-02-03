@@ -38,39 +38,6 @@ Public Class Scanner
         currentKind = scanToken()
         Dim token As New Token(currentKind, currentSpelling)
 
-
-        'Create a new row only if the token is not the last token
-        If token.kind <> Token.LAST Then
-            ' Create a new row
-            Dim newRow As DataGridViewRow = New DataGridViewRow()
-
-            ' Create cells for each column and set their values
-            Dim kindCell As New DataGridViewTextBoxCell()
-            kindCell.Value = token.kind
-
-            Dim kindTypeCell As New DataGridViewTextBoxCell()
-            kindTypeCell.Value = token.GetKindType()
-
-            Dim spellingCell As New DataGridViewTextBoxCell()
-            spellingCell.Value = token.spelling
-
-            Dim isValidCell As New DataGridViewTextBoxCell()
-            isValidCell.Value = token.isValid()
-
-            ' Add cells to the row in the correct order
-            newRow.Cells.Add(kindCell)
-            newRow.Cells.Add(kindTypeCell)
-            newRow.Cells.Add(spellingCell)
-            newRow.Cells.Add(isValidCell)
-
-            ' Add the new row to the DataGridView
-            MyCompiler.lexicalResultTable.Rows.Add(newRow)
-
-            ' Refresh the DataGridView to update the display
-            MyCompiler.lexicalResultTable.Refresh()
-        End If
-
-
         ' Display the token in ResultBlock
         ' MyCompiler.ResultBlock.Text &= token.ToString() & Environment.NewLine
 
@@ -108,6 +75,11 @@ Public Class Scanner
                     End If
                 End If
             End If
+            ' Return UNKNOWN for any other characters
+            While Char.IsLetterOrDigit(currentChar)
+                takeIt()
+            End While
+            Return Token.UNKNOWN
         End If
 
         ' Check for separators
