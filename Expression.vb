@@ -77,7 +77,7 @@
         'Check first clause of first letter being capitalized
         If (Asc(keyword(0)) >= Asc("A") And Asc(keyword(0)) <= Asc("Z")) Then
             'Check for the whole spelling of the keyword now if it is a keyword Like If or Else
-            If (keyword = "If" Or keyword = "Else" Or keyword = "Int") Then
+            If (keyword = "If" Or keyword = "Else" Or keyword = "Int" Or keyword = "Print") Then
                 isKeyword = True
             Else
                 isKeyword = False
