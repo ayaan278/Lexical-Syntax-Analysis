@@ -2,8 +2,15 @@
 Imports System.Threading
 
 Public Class MyCompiler
+    'The Form will be used to create the GUI for the application.
     Private Sub MyCompiler_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         TextBox1_TextChanged(sender, e)
+        lexicalResultTable.Columns.Add("Kind", "Kind")
+        lexicalResultTable.Columns.Add("KindType", "Kind Type")
+        lexicalResultTable.Columns.Add("Spelling", "Spelling")
+        lexicalResultTable.Columns.Add("Validity", "Validity")
+        ' Disable the maximize button
+        Me.MaximizeBox = False
     End Sub
 
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
@@ -36,11 +43,12 @@ Public Class MyCompiler
         Dim scanner As Scanner = New Scanner
         Dim currentToken As Token
 
-        ResultBlock.Items.Clear()
+        'Clear the table before adding new tokens
+        lexicalResultTable.Rows.Clear()
 
+        'Scan the tokens and add them to the table
         currentToken = scanner.scan
-        While currentToken.kind <> Token.EOF
-            ResultBlock.Items.Add(currentToken.ToString)
+        While currentToken.kind <> Token.LAST
             currentToken = scanner.scan
         End While
 
@@ -70,6 +78,22 @@ Public Class MyCompiler
 
     'The Result block will be used to display the results of the lexical and syntax analysis.
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResultBlock.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles lexicalResultTable.CellContentClick
+
+    End Sub
+
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
     End Sub
 End Class
