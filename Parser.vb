@@ -3,10 +3,16 @@
 Public Class Parser
     Public nextToken As Token
     Dim scanner As Scanner = New Scanner
+    Public sofFound As Boolean = False
+    Public eofFound As Boolean = False
 
     Private Sub acceptToken(ByVal k As Integer)
         If nextToken.kind = k Then
             nextToken = scanner.scan
+        Else
+            syntaxError = True
+            Debug.WriteLine("Parse Accept Token Error " + nextToken.spelling + nextToken.GetKindType)
+            MyCompiler.ResultBlock.Items.Add("Parse Accept Token Error " + nextToken.spelling)
         End If
     End Sub
 
@@ -22,7 +28,7 @@ Public Class Parser
             Case Token.SOF
                 parse_start()
             Case Token.INTEGERS, Token.IDENTIFIERS, Token.BRACES, Token.SEPARATORS, Token.OPERATORS, Token.KEYWORDS
-                parse_statement()
+                parse_statement_list()
             Case Token.EOF
                 parse_end()
             Case Token.LAST
@@ -35,43 +41,44 @@ Public Class Parser
 
     Private Sub parse_start()
         ' Parsing logic for "#Start"
-        acceptToken(Token.SOF)
+        If sofFound = False Then
+            acceptToken(Token.SOF)
+            sofFound = True
+        Else
+            syntaxError = True
+            MyCompiler.ResultBlock.Items.Add("Parse Start Error " + nextToken.spelling)
+        End If
+
     End Sub
     Private Sub parse_end()
         ' Parsing logic for "#End"
-        acceptToken(Token.EOF)
+        If eofFound = False Then
+            acceptToken(Token.EOF)
+            eofFound = True
+        Else
+            syntaxError = True
+            MyCompiler.ResultBlock.Items.Add("Parse End Error " + nextToken.spelling)
+        End If
     End Sub
 
-
     Private Sub parse_statement_list()
+        'Debug.WriteLine(nextToken.spelling)
+
         ' Parsing logic for <statement_list>
         parse_statement()
 
         ' Check for { <seperator> <statement> }
         While nextToken.kind = Token.SEPARATORS
-            If nextToken.spelling = ";" Then
-                acceptToken(Token.SEPARATORS)
-                parse_statement()
-            Else
-                syntaxError = True
-                MyCompiler.ResultBlock.Items.Add("Parse Statement List Error Missing ;")
-                acceptToken(Token.SEPARATORS)
-            End If
+            parse_separators()
+            parse_statement()
         End While
-
-        ' Check for <if_statement>
-        If nextToken.kind = Token.KEYWORDS Then
-            If nextToken.spelling = "If" Then
-                parse_if_statement()
-            End If
-        End If
     End Sub
 
     Private Sub parse_statement()
         ' Parsing logic for <statement>
         Select Case nextToken.kind
             Case Token.KEYWORDS
-                If nextToken.spelling = "Integer" Then
+                If nextToken.spelling = "Int" Then
                     parse_declaration()
                 ElseIf nextToken.spelling = "Print" Then
                     parse_command()
@@ -82,9 +89,6 @@ Public Class Parser
                 parse_assignment()
             Case Token.SEPARATORS, Token.BRACES, Token.INTEGERS, Token.OPERATORS, Token.LAST, Token.EOF, Token.SOF
                 ' Do nothing for separators
-            Case Else
-                syntaxError = True
-                MyCompiler.ResultBlock.Items.Add("Parse Statement Error " + nextToken.spelling)
         End Select
     End Sub
 
@@ -153,7 +157,9 @@ Public Class Parser
 
     Private Sub parse_declaration()
         ' Parsing logic for <declaration>
+        Debug.WriteLine("Declaration: 0 " + nextToken.spelling)
         parse_type()
+        Debug.WriteLine("Declaration: 1 " + nextToken.spelling)
         parse_identifier()
     End Sub
 
@@ -212,9 +218,6 @@ Public Class Parser
                 parse_integer()
             Case Token.OPERATORS, Token.BRACES, Token.SEPARATORS, Token.KEYWORDS, Token.LAST, Token.EOF, Token.SOF
                 ' Do nothing
-            Case Else
-                syntaxError = True
-                MyCompiler.ResultBlock.Items.Add("Parse Expression Error " + nextToken.spelling)
         End Select
     End Sub
 
@@ -247,11 +250,24 @@ Public Class Parser
         End If
     End Sub
 
+    Private Sub parse_operator()
+        ' Parsing logic for <arithmetic_operator>
+        If nextToken.kind = Token.OPERATORS Then
+            If nextToken.spelling = "+" Or nextToken.spelling = "-" Or nextToken.spelling = "*" Or nextToken.spelling = "/" Then
+                acceptToken(Token.OPERATORS)
+            Else
+                syntaxError = True
+                MyCompiler.ResultBlock.Items.Add("Parse Arithmetic Operator Error " + nextToken.spelling)
+            End If
+        End If
+    End Sub
+
     Private Sub parse_type()
         ' Parsing logic for <type>
         If nextToken.kind = Token.KEYWORDS Then
-            If nextToken.spelling = "Integer" Then
+            If nextToken.spelling = "Int" Then
                 acceptToken(Token.KEYWORDS)
+                'Debug.WriteLine("Type: " + nextToken.spelling)
             End If
         Else
             syntaxError = True
@@ -261,12 +277,30 @@ Public Class Parser
 
     Private Sub parse_identifier()
         ' Parsing logic for <identifier>
-        acceptToken(Token.IDENTIFIERS)
+        'Debug.WriteLine("Identifier: " + nextToken.spelling)
+        If nextToken.kind = Token.IDENTIFIERS Then
+            acceptToken(Token.IDENTIFIERS)
+        Else
+            syntaxError = True
+            MyCompiler.ResultBlock.Items.Add("Parse Identifier Error " + nextToken.spelling)
+        End If
     End Sub
 
     Private Sub parse_integer()
         ' Parsing logic for <integer>
+        'Debug.WriteLine("Integer: " + nextToken.spelling)
         acceptToken(Token.INTEGERS)
+    End Sub
+
+    Private Sub parse_separators()
+        ' Parsing logic for <separators>
+        If nextToken.kind = Token.SEPARATORS Then
+            acceptToken(Token.SEPARATORS)
+        Else
+            syntaxError = True
+            Debug.WriteLine("Parse Separators Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Separators Error Missing ;")
+        End If
     End Sub
 
 End Class
