@@ -25,6 +25,11 @@ Public Class Token
     Public Shared BRACES As Integer = 8
     Public Shared LAST As Integer = 9
 
+    'Overriding the ToString method to return the token kind and spelling
+    Public Overrides Function ToString() As String
+        Return "Kind: " & kind & " Spelling: " & spelling
+    End Function
+
     ' Check if the token is valid or invalid
     Public Function isValid() As String
         ' Check if the token is valid or invalid

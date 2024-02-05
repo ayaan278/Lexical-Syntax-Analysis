@@ -38,9 +38,6 @@ Public Class Scanner
         currentKind = scanToken()
         Dim token As New Token(currentKind, currentSpelling)
 
-        ' Display the token in ResultBlock
-        ' MyCompiler.ResultBlock.Text &= token.ToString() & Environment.NewLine
-
         Return token
     End Function
 
