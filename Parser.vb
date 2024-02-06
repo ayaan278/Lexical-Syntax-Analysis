@@ -8,35 +8,62 @@ Public Class Parser
 
     Private Sub acceptToken(ByVal k As Integer)
         If nextToken.kind = k Then
+            Debug.WriteLine("Scanning Token: " & nextToken.spelling & " - " & nextToken.GetKindType())
             nextToken = scanner.scan
         Else
             syntaxError = True
-            Debug.WriteLine("Parse Accept Token Error " + nextToken.spelling + nextToken.GetKindType)
+            'Debug.WriteLine("Parse Accept Token Error " + nextToken.spelling + nextToken.GetKindType)
             MyCompiler.ResultBlock.Items.Add("Parse Accept Token Error " + nextToken.spelling)
         End If
     End Sub
 
-    ' 
+    ' The syntaxError variable will be used to check if there is a syntax error in the program.
+    ' The function ResetSyntaxError will be used to reset the syntaxError variable.
     Public Sub ResetSyntaxError()
         syntaxError = False
     End Sub
 
+    ' The start_parse function will be used to start the parsing process.
+    Public Sub start_parse()
+        nextToken = scanner.scan()
+
+        ' Parse the whole program
+        While nextToken.kind <> Token.LAST
+            parse_program()
+        End While
+
+    End Sub
 
     'The parse_program function will be used to parse the whole program.
     Public Sub parse_program()
+        ' Parsing logic for <program>
+        ' Check for "#Start"
+        If nextToken.kind = Token.SOF Then
+            parse_start()
+        Else
+            syntaxError = True
+            MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
+        End If
         Select Case nextToken.kind
             Case Token.SOF
-                parse_start()
+
             Case Token.INTEGERS, Token.IDENTIFIERS, Token.BRACES, Token.SEPARATORS, Token.OPERATORS, Token.KEYWORDS
                 parse_statement_list()
             Case Token.EOF
-                parse_end()
             Case Token.LAST
                 ' Do nothing
             Case Else
                 syntaxError = True
                 MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
         End Select
+        ' Check for "#End"
+        If nextToken.kind = Token.EOF Then
+            parse_end()
+        Else
+            syntaxError = True
+            MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
+        End If
+
     End Sub
 
     Private Sub parse_start()
@@ -157,9 +184,7 @@ Public Class Parser
 
     Private Sub parse_declaration()
         ' Parsing logic for <declaration>
-        Debug.WriteLine("Declaration: 0 " + nextToken.spelling)
         parse_type()
-        Debug.WriteLine("Declaration: 1 " + nextToken.spelling)
         parse_identifier()
     End Sub
 
@@ -172,8 +197,13 @@ Public Class Parser
                 acceptToken(Token.OPERATORS)
             Else
                 syntaxError = True
-                MyCompiler.ResultBlock.Items.Add("Parse Assignment Error " + nextToken.spelling)
+                Debug.WriteLine("Parse Assignment Error " + nextToken.spelling)
+                MyCompiler.ResultBlock.Items.Add("Parse Assignment Error Expected  =  found " + nextToken.spelling)
             End If
+        Else
+            syntaxError = True
+            Debug.WriteLine("Parse Assignment Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Assignment Error Expected  =  found " + nextToken.spelling)
         End If
         parse_expression()
     End Sub
@@ -256,34 +286,21 @@ Public Class Parser
             If nextToken.spelling = "+" Or nextToken.spelling = "-" Or nextToken.spelling = "*" Or nextToken.spelling = "/" Then
                 acceptToken(Token.OPERATORS)
             Else
-                syntaxError = True
-                MyCompiler.ResultBlock.Items.Add("Parse Arithmetic Operator Error " + nextToken.spelling)
+
             End If
         End If
     End Sub
 
     Private Sub parse_type()
         ' Parsing logic for <type>
-        If nextToken.kind = Token.KEYWORDS Then
-            If nextToken.spelling = "Int" Then
-                acceptToken(Token.KEYWORDS)
-                'Debug.WriteLine("Type: " + nextToken.spelling)
-            End If
-        Else
-            syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse Type Error -" + nextToken.spelling)
-        End If
+        'Debug.WriteLine("Type: " + nextToken.spelling)
+        acceptToken(Token.KEYWORDS)
     End Sub
 
     Private Sub parse_identifier()
         ' Parsing logic for <identifier>
         'Debug.WriteLine("Identifier: " + nextToken.spelling)
-        If nextToken.kind = Token.IDENTIFIERS Then
-            acceptToken(Token.IDENTIFIERS)
-        Else
-            syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse Identifier Error " + nextToken.spelling)
-        End If
+        acceptToken(Token.IDENTIFIERS)
     End Sub
 
     Private Sub parse_integer()

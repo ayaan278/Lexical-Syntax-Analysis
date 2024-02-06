@@ -96,7 +96,6 @@ Public Class MyCompiler
     'The Syntax Analysis button will be used to perform the syntax analysis of the code entered in the text box.
     '-----------------------------------------------------------------------------------------------------------
     Private Sub syntaxAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles syntaxButton.Click
-        Dim scanner As Scanner = New Scanner
         Dim parser As Parser = New Parser
 
         'Clear the Result block before adding new tokens
@@ -104,14 +103,9 @@ Public Class MyCompiler
 
         'Reset the syntax error
         parser.ResetSyntaxError()
-
         'Parse the whole program
-        parser.nextToken = scanner.scan
+        parser.start_parse()
 
-        While parser.nextToken.kind <> Token.LAST
-            parser.parse_program()
-            parser.nextToken = scanner.scan
-        End While
 
         'Check for syntax error
         If syntaxError Then
