@@ -21,6 +21,7 @@ Public Class Parser
     ' The function ResetSyntaxError will be used to reset the syntaxError variable.
     Public Sub ResetSyntaxError()
         syntaxError = False
+
     End Sub
 
     ' The start_parse function will be used to start the parsing process.
@@ -63,7 +64,6 @@ Public Class Parser
             syntaxError = True
             MyCompiler.ResultBlock.Items.Add("Parse Program Error Missing #End")
         End If
-
     End Sub
 
     Private Sub parse_start()
@@ -99,6 +99,7 @@ Public Class Parser
             parse_separators()
             parse_statement()
         End While
+
     End Sub
 
     Private Sub parse_statement()
@@ -118,6 +119,7 @@ Public Class Parser
             Case Token.SEPARATORS, Token.BRACES, Token.INTEGERS, Token.OPERATORS, Token.LAST, Token.EOF, Token.SOF
                 ' Do nothing for separators
         End Select
+
     End Sub
 
 
@@ -210,12 +212,15 @@ Public Class Parser
                 End If
             End If
         End If
+
+        peekToken()
     End Sub
 
     Private Sub parse_declaration()
         ' Parsing logic for <declaration>
         parse_type()
         parse_identifier()
+        peekToken()
     End Sub
 
     Private Sub parse_assignment()
@@ -236,6 +241,7 @@ Public Class Parser
             MyCompiler.ResultBlock.Items.Add("Parse Assignment Error Expected  =  found " + nextToken.spelling)
         End If
         parse_expression()
+        peekToken()
     End Sub
 
     Private Sub parse_command()
@@ -272,6 +278,7 @@ Public Class Parser
                 MyCompiler.ResultBlock.Items.Add("Parse Command Error " + nextToken.spelling)
             End If
         End If
+        peekToken()
     End Sub
 
     Private Sub parse_expression()
@@ -391,6 +398,19 @@ Public Class Parser
             Debug.WriteLine("Parse Separators Error " + nextToken.spelling)
             MyCompiler.ResultBlock.Items.Add("Parse Separators Error Missing ;")
         End If
+    End Sub
+
+    Private Sub peekToken()
+        'Debug.WriteLine("Peek: " + nextToken.spelling)
+        ' Check for next element if it is semi colon then okay otherwise skip next token with errors
+        While nextToken.kind <> Token.SEPARATORS
+            syntaxError = True
+            Debug.WriteLine("Parse Peek Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Peek Error Not valid token " + nextToken.spelling)
+
+            ' Skip the next token
+            nextToken = scanner.scan
+        End While
     End Sub
 
 End Class
