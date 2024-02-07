@@ -38,15 +38,15 @@ Public Class Parser
     Public Sub parse_program()
         ' Parsing logic for <program>
         ' Check for "#Start"
-        If nextToken.kind = Token.SOF Then
+        If nextToken.kind = Token.SOF And sofFound = False Then
             parse_start()
         Else
             syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Program Error Missing #Start")
         End If
         Select Case nextToken.kind
             Case Token.SOF
-
+                parse_start()
             Case Token.INTEGERS, Token.IDENTIFIERS, Token.BRACES, Token.SEPARATORS, Token.OPERATORS, Token.KEYWORDS
                 parse_statement_list()
             Case Token.EOF
@@ -57,11 +57,11 @@ Public Class Parser
                 MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
         End Select
         ' Check for "#End"
-        If nextToken.kind = Token.EOF Then
+        If nextToken.kind = Token.EOF And eofFound = False Then
             parse_end()
         Else
             syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse Program Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Program Error Missing #End")
         End If
 
     End Sub
@@ -73,7 +73,7 @@ Public Class Parser
             sofFound = True
         Else
             syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse Start Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Start Error Already found #Start")
         End If
 
     End Sub
@@ -84,7 +84,7 @@ Public Class Parser
             eofFound = True
         Else
             syntaxError = True
-            MyCompiler.ResultBlock.Items.Add("Parse End Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse End Error Already Found #End")
         End If
     End Sub
 
@@ -102,6 +102,7 @@ Public Class Parser
     End Sub
 
     Private Sub parse_statement()
+        'TODO: Prevent them from breaking and freezing screen
         ' Parsing logic for <statement>
         Select Case nextToken.kind
             Case Token.KEYWORDS
@@ -175,10 +176,39 @@ Public Class Parser
                     MyCompiler.ResultBlock.Items.Add("Parse If Missing Brackets Error }")
                 End If
             End If
-
         Else
             syntaxError = True
+            Debug.WriteLine("Parse If Statement Error " + nextToken.spelling)
             MyCompiler.ResultBlock.Items.Add("Parse Error in IF Block" + nextToken.spelling)
+        End If
+
+        ' Check for "Else"
+        If nextToken.spelling = "Else" Then
+            ' Accept the "Else" keyword
+            acceptToken(Token.KEYWORDS)
+
+            ' Check for "{"
+            If nextToken.kind = Token.BRACES Then
+                If nextToken.spelling = "{" Then
+                    acceptToken(Token.BRACES)
+                Else
+                    syntaxError = True
+                    MyCompiler.ResultBlock.Items.Add("Parse If Missing Brackets Error {")
+                    Return ' Return to avoid further processing
+                End If
+            End If
+
+            parse_statement_list()
+
+            ' Check for "}"
+            If nextToken.kind = Token.BRACES Then
+                If nextToken.spelling = "}" Then
+                    acceptToken(Token.BRACES)
+                Else
+                    syntaxError = True
+                    MyCompiler.ResultBlock.Items.Add("Parse If Missing Brackets Error }")
+                End If
+            End If
         End If
     End Sub
 
@@ -232,6 +262,10 @@ Public Class Parser
                         syntaxError = True
                         MyCompiler.ResultBlock.Items.Add("Parse Message Missing > Brackets Error " + nextToken.spelling)
                     End If
+                Else
+                    syntaxError = True
+                    MyCompiler.ResultBlock.Items.Add("Parse Command Error Nothing to Print")
+
                 End If
             Else
                 syntaxError = True
@@ -246,9 +280,14 @@ Public Class Parser
                 parse_identifier()
             Case Token.INTEGERS
                 parse_integer()
-            Case Token.OPERATORS, Token.BRACES, Token.SEPARATORS, Token.KEYWORDS, Token.LAST, Token.EOF, Token.SOF
+            Case Token.OPERATORS
+
+            Case Token.BRACES, Token.SEPARATORS, Token.KEYWORDS, Token.LAST, Token.EOF, Token.SOF
                 ' Do nothing
         End Select
+        If nextToken.kind = Token.OPERATORS Then
+            parse_calculation()
+        End If
     End Sub
 
     Private Sub parse_condition()
@@ -263,12 +302,25 @@ Public Class Parser
         While nextToken.kind = Token.IDENTIFIERS
             acceptToken(nextToken.kind)
         End While
+        While nextToken.kind = Token.INTEGERS
+            acceptToken(nextToken.kind)
+        End While
+
     End Sub
 
     Private Sub parse_comparison_operator()
         ' Parsing logic for <comparison_operator>
         If nextToken.kind = Token.OPERATORS Then
-            If nextToken.spelling = "=" Or nextToken.spelling = "!" Or nextToken.spelling = "<" Or nextToken.spelling = ">" Then
+            If nextToken.spelling = "=" Or nextToken.spelling = "!" Then
+                acceptToken(Token.OPERATORS)
+                If nextToken.spelling = "=" Then
+                    acceptToken(Token.OPERATORS)
+                Else
+                    syntaxError = True
+                    Debug.WriteLine("Parse Comparison Operator Error Expected  =  got " + nextToken.spelling)
+                    MyCompiler.ResultBlock.Items.Add("Parse Comparison Operator Error Expected  =  got " + nextToken.spelling)
+                End If
+            ElseIf nextToken.spelling = "<" Or nextToken.spelling = ">" Then
                 acceptToken(Token.OPERATORS)
                 If nextToken.spelling = "=" Then
                     acceptToken(Token.OPERATORS)
@@ -280,13 +332,28 @@ Public Class Parser
         End If
     End Sub
 
+    Private Sub parse_calculation()
+        parse_operator()
+        If nextToken.kind = Token.IDENTIFIERS Or nextToken.kind = Token.INTEGERS Then
+            parse_expression()
+        Else
+            syntaxError = True
+            Debug.WriteLine("Parse Calculation Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Calculation Error Missing Identifiers or Integers")
+        End If
+    End Sub
+
     Private Sub parse_operator()
         ' Parsing logic for <arithmetic_operator>
         If nextToken.kind = Token.OPERATORS Then
-            If nextToken.spelling = "+" Or nextToken.spelling = "-" Or nextToken.spelling = "*" Or nextToken.spelling = "/" Then
+            If nextToken.spelling = "+" Or nextToken.spelling = "-" Or nextToken.spelling = "*" Or nextToken.spelling = "/" Or nextToken.spelling = "%" Then
                 acceptToken(Token.OPERATORS)
+            ElseIf nextToken.spelling = "=" Or nextToken.spelling = ">" Or nextToken.spelling = "<" Or nextToken.spelling = "!" Then
+                parse_comparison_operator()
             Else
-
+                syntaxError = True
+                Debug.WriteLine("Parse Operator Error Wrong Operator for Calculation " + nextToken.spelling)
+                MyCompiler.ResultBlock.Items.Add("Parse Operator Error Wrong Operator for Calculation " + nextToken.spelling)
             End If
         End If
     End Sub
@@ -300,7 +367,13 @@ Public Class Parser
     Private Sub parse_identifier()
         ' Parsing logic for <identifier>
         'Debug.WriteLine("Identifier: " + nextToken.spelling)
-        acceptToken(Token.IDENTIFIERS)
+        If nextToken.kind = Token.IDENTIFIERS Then
+            acceptToken(Token.IDENTIFIERS)
+        Else
+            syntaxError = True
+            Debug.WriteLine("Parse Identifier Error " + nextToken.spelling)
+            MyCompiler.ResultBlock.Items.Add("Parse Identifier Error " + nextToken.spelling)
+        End If
     End Sub
 
     Private Sub parse_integer()
