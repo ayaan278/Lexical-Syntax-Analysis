@@ -15,7 +15,7 @@ Public Class MyCompiler
         ' Set the column widths
         LexicalResultTable.Columns(0).Width = 80
         LexicalResultTable.Columns(1).Width = 150
-        LexicalResultTable.Columns(2).Width = 150
+        LexicalResultTable.Columns(2).Width = 120
         LexicalResultTable.Columns(3).Width = 100
 
         'Disable the leftmost filter rows buttons

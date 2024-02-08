@@ -5,6 +5,7 @@ Public Class Parser
     Dim scanner As Scanner = New Scanner
     Public sofFound As Boolean = False
     Public eofFound As Boolean = False
+    Public lineError As Boolean = False
 
     Private Sub acceptToken(ByVal k As Integer)
         If nextToken.kind = k Then
@@ -44,6 +45,7 @@ Public Class Parser
         Else
             syntaxError = True
             MyCompiler.ResultBlock.Items.Add("Parse Program Error Missing #Start")
+            peekToken()
         End If
         Select Case nextToken.kind
             Case Token.SOF
@@ -60,6 +62,7 @@ Public Class Parser
         ' Check for "#End"
         If nextToken.kind = Token.EOF And eofFound = False Then
             parse_end()
+            Return
         Else
             syntaxError = True
             MyCompiler.ResultBlock.Items.Add("Parse Program Error Missing #End")
@@ -184,6 +187,12 @@ Public Class Parser
             MyCompiler.ResultBlock.Items.Add("Parse Error in IF Block" + nextToken.spelling)
         End If
 
+        parse_else_statement()
+
+        peekToken()
+    End Sub
+
+    Private Sub parse_else_statement()
         ' Check for "Else"
         If nextToken.spelling = "Else" Then
             ' Accept the "Else" keyword
@@ -212,8 +221,6 @@ Public Class Parser
                 End If
             End If
         End If
-
-        peekToken()
     End Sub
 
     Private Sub parse_declaration()
@@ -253,20 +260,20 @@ Public Class Parser
                     parse_identifier()
                 ElseIf nextToken.kind = Token.INTEGERS Then
                     parse_integer()
-                ElseIf nextToken.kind = Token.OPERATORS Then
+                ElseIf nextToken.kind = Token.BRACES Then
                     ' Parsing logic for <message>
-                    If nextToken.spelling = "<" Then
-                        acceptToken(Token.OPERATORS)
+                    If nextToken.spelling = "(" Then
+                        acceptToken(Token.BRACES)
                     Else
                         syntaxError = True
-                        MyCompiler.ResultBlock.Items.Add("Parse Message Missing < Brackets Error " + nextToken.spelling)
+                        MyCompiler.ResultBlock.Items.Add("Parse Message Missing ( Brackets Error " + nextToken.spelling)
                     End If
                     parse_message()
-                    If nextToken.spelling = ">" Then
-                        acceptToken(Token.OPERATORS)
+                    If nextToken.spelling = ")" Then
+                        acceptToken(Token.BRACES)
                     Else
                         syntaxError = True
-                        MyCompiler.ResultBlock.Items.Add("Parse Message Missing > Brackets Error " + nextToken.spelling)
+                        MyCompiler.ResultBlock.Items.Add("Parse Message Missing ) Brackets Error " + nextToken.spelling)
                     End If
                 Else
                     syntaxError = True
@@ -292,7 +299,7 @@ Public Class Parser
             Case Token.BRACES, Token.SEPARATORS, Token.KEYWORDS, Token.LAST, Token.EOF, Token.SOF
                 ' Do nothing
         End Select
-        If nextToken.kind = Token.OPERATORS Then
+        If nextToken.kind = Token.OPERATORS And nextToken.spelling = "+" Or nextToken.spelling = "-" Or nextToken.spelling = "*" Or nextToken.spelling = "/" Or nextToken.spelling = "%" Then
             parse_calculation()
         End If
     End Sub
@@ -331,6 +338,12 @@ Public Class Parser
                 acceptToken(Token.OPERATORS)
                 If nextToken.spelling = "=" Then
                     acceptToken(Token.OPERATORS)
+                ElseIf nextToken.spelling = "<" Or nextToken.spelling = ">" Then
+                    syntaxError = True
+                    Debug.WriteLine("Parse Comparison Operator Error " + nextToken.spelling)
+                    MyCompiler.ResultBlock.Items.Add("Parse Comparison Operator Error " + nextToken.spelling)
+                Else
+                    ' Do nothing
                 End If
             Else
                 syntaxError = True
@@ -401,16 +414,28 @@ Public Class Parser
     End Sub
 
     Private Sub peekToken()
-        'Debug.WriteLine("Peek: " + nextToken.spelling)
         ' Check for next element if it is semi colon then okay otherwise skip next token with errors
         While nextToken.kind <> Token.SEPARATORS
             syntaxError = True
             Debug.WriteLine("Parse Peek Error " + nextToken.spelling)
-            MyCompiler.ResultBlock.Items.Add("Parse Peek Error Not valid token " + nextToken.spelling)
+            If lineError = False Then
+                lineError = True
+                Debug.WriteLine("Parse Peek Error " + nextToken.spelling)
+                MyCompiler.ResultBlock.Items.Add("Parse Peek Error Next to the token " + nextToken.spelling)
+            End If
 
             ' Skip the next token
             nextToken = scanner.scan
+            If nextToken.kind = Token.SEPARATORS Then
+                Return
+            End If
+
+            'Check if it is end of file then break out of the loop and whole program
+            If nextToken.kind = Token.LAST Then
+                Return
+            End If
         End While
+        lineError = False
     End Sub
 
 End Class
